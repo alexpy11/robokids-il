@@ -2,7 +2,8 @@
 
 Lake is a fun project to help teach kids python. 
 Lake.py is the server and the students write their-own clients, based on the 'stupidFish.py' template.
-See demo.jpg for example of a running system.
+
+When the system runs, the lake shows every fish swimming.
 
 ## Motivation
 
@@ -38,10 +39,12 @@ Multiple fish might connect to the server
 - One time tasks for each student:
   - Make their own copy of the template 'stupidFish.py'
   - Modify the fish name. 
-  - If the fish runs on a different computer, Modify the IP to be that of the computer running lake.py.  
+  - If the fish runs on a different computer, modify the IP to be that of the computer running lake.py.  
 - Meeting the challanges:
-Begginers need to understand and modify the 'getNextPos' function in the fish module, in order to master the challanges. See 'challanges.txt' for description of the targets.
-The student can examine the map received and determine returned deltaX, deltaY to accomplish current mission.  Once a challange is completed, the lake automatically moves to the next mission.
+  - Begginers need to understand and modify only the 'getNextPos' function. More advanced students can examine and modify the rest of the client code.
+  - Specifically, the student modifies the 'getNextPos' function to return the deltaX, deltaY (movenent of the fish), after examining the information received from the server
+  - See 'challanges.txt' for description of the targets.
+  - Once a challange is completed, the lake automatically moves to the next mission.
 
 ## Tests
 
