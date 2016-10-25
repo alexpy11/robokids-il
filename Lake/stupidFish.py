@@ -1,6 +1,6 @@
 from twisted.internet import reactor, protocol 
 from twisted.protocols import basic
-import random
+import random, json
 validDelta = [ -3, -2, -1, 1, 2, 3 ]
 
 
@@ -9,18 +9,15 @@ ip = "localhost"
 
 name = "Jon"
 
-def getNextPos(map):
+def getNextPos(status):
+    state = status["STATE"]
+    map = status["MAP"]
+
+    ############################################################
+    ###     modify code below to make the fish smarter       ###
     deltaX = random.choice( validDelta )
     deltaY = random.choice( validDelta )
-    #print map
-    #print map[-2]
-    deltaX = 0
-    deltaY = +2
-       
-    print "deltaX: ", deltaX
-    print "deltaY:", deltaY
-
-
+    ################################################################
 
     return deltaX, deltaY
 
@@ -29,14 +26,33 @@ class FishProtocol(basic.LineReceiver):
     def connectionMade(self):
         self.sendLine( name )
     def dataReceived(self, data):
-        print "Server said:", data
-        if "MAP" in data:  
-            deltaX, deltaY = getNextPos(data[4:-2].split("\n"))
-            deltaX = str(deltaX)
-            if len(deltaX)==1: deltaX = "+" + deltaX
-            deltaY = str(deltaY)
-            if len(deltaY)==1: deltaY = "+" + deltaY
-            self.sendLine( deltaX + deltaY )
+        status = None
+        try:
+            status = json.loads(data)
+        except:
+            print "Msg from server is not a valid JSON string."
+            print "Msg from server is:",data
+            return
+
+        if "ERROR" in status.keys():
+            print "+---"+ "-"*84 +"---+"
+            print "|   "+status["ERROR"].ljust(84) +"   |"
+            print "+---"+ "-"*84 +"---+"
+            return
+        print "State:",status["STATE"]
+        print "Map:" 
+        for l in status["MAP"]:
+            print l
+        deltaX, deltaY = getNextPos(status)
+        print "deltaX: ", deltaX, "deltaY:", deltaY
+        replayDict = { "deltaX": deltaX, "deltaY": deltaY }
+        self.sendLine( json.dumps(replayDict) )
+
+        #deltaX = str(deltaX)
+        #if len(deltaX)==1: deltaX = "+" + deltaX
+        #deltaY = str(deltaY)
+        #if len(deltaY)==1: deltaY = "+" + deltaY
+        #self.sendLine( deltaX + deltaY )
     
     def connectionLost(self, reason):
         print "connection lost"

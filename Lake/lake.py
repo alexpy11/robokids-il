@@ -1,11 +1,13 @@
 from twisted.internet.task import LoopingCall
 from twisted.internet import reactor, protocol  # , stdio
 from twisted.protocols import basic
-import pygame, pygame.surfarray as surfarray, math, sys, random, pprint, os
+import pygame, pygame.surfarray as surfarray
+import math, sys, random, pprint, os, json
 
 secsBetweenTicks = 1
 idColorNextFish = (1, 0, 0)
-validDelta = [ "-3", "-2", "-1", "-0", "+0", "+1", "+2", "+3" ]
+#validDelta = [ "-3", "-2", "-1", "-0", "+0", "+1", "+2", "+3" ]
+validDelta = [ -3, -2, -1, 0, +1, +2, +3 ]
 LAND_COLOR = (128, 64, 0, 255)
 WATER_COLOR = (0, 0, 252, 255)
 MASK_COLOR = (252, 0, 252, 255)
@@ -148,14 +150,16 @@ def game_tick():
                if "L" in map[-25:]:
                    fishSprite.statesAchievedTime.append(fishSprite.time)
                    atLeastOnefishStatusChange = True
-           msg = "STATE\n" + fishStates[len(fishSprite.statesAchievedTime)]
-           msg += "\nMAP\n" + map
-           fishProtocol.sendLine(msg)
+           msgDict = { }
+           msgDict["STATE"] = fishStates[len(fishSprite.statesAchievedTime)]
+           msgDict["MAP"] = map.split("\n")
+           fishProtocol.sendLine( json.dumps(msgDict) )
        else:
            fishToKill.append((name, "Fish " + name + " fell from the edge of the world - bye bye."))
    for name, reason in fishToKill:
        logI(reason)
-       FishFactoryInstance.fishProtocolByName[name].sendLine(reason)
+       reasonDict = { "ERROR": reason }
+       FishFactoryInstance.fishProtocolByName[name].sendLine( json.dumps(reasonDict) )
        FishFactoryInstance.fishProtocolByName[name].transport.loseConnection()
    if atLeastOnefishStatusChange: printFishStatus()
 
@@ -192,29 +196,36 @@ class TalkToFish(basic.LineReceiver):
             logI("Got a new fish, named: " + self.name)
             # self.sendLine("Nice to meet you,"+self.name)
         else:
-            d = data.strip()
-            if len(d) != 4:
-                msg = "Wrong length data received. Len should be 4 and is actually " + str(len(d))
-                logI("Bad data from fish " + self.name + ": " + msg)
-                self.sendLine(msg)
+            try:
+                self.receivedDict = json.loads(data)
+                deltaX = int( self.receivedDict["deltaX"] )
+                deltaY = int( self.receivedDict["deltaY"] )
+            except:
+                logI( "Bad data from fish " + self.name + ": "+ data )
                 return
-            deltaX = d[:2]; deltaY = d[2:]
+            #d = data.strip()
+            #if len(d) != 4:
+            #    msg = "Wrong length data received. Len should be 4 and is actually " + str(len(d))
+            #    logI("Bad data from fish " + self.name + ": " + msg)
+            #    self.sendLine(msg)
+            #    return
+            #deltaX = d[:2]; deltaY = d[2:]
             if deltaX not in validDelta:
-                msg = "deltaX (first 2 chars) is invalid. Valid values are '" + \
-                      ",".join(validDelta) + "'. Actual value is '" + deltaX + "'"
-                logI("Bad data from fish " + self.name + ": " + msg)
-                self.sendLine(msg)
+                msg = "deltaX is invalid. Valid values are '" + \
+                      ", ".join([str(n) for n in validDelta]) + "'. Actual value is '" + str(deltaX) + "'"
+                logI("Bad deltaX from fish " + self.name + ": " + data)
+                self.sendLine( json.dumps({ "ERROR": msg }) )
                 return
             if deltaY not in validDelta:
-                msg = "deltaY (last 2 chars) is invalid. Valid values are '" + \
-                      ",".join(validDelta) + "'. Actual value is '" + deltaY + "'"
-                logI("Bad data from fish " + self.name + ": " + msg)
-                self.sendLine(msg)
+                msg = "deltaY is invalid. Valid values are '" + \
+                      ", ".join([str(n) for n in validDelta]) + "'. Actual value is '" + str(deltaY) + "'"
+                logI("Bad deltaY from fish " + self.name + ": " + data)
+                self.sendLine( json.dumps({ "ERROR": msg }) )
                 return
-            if int(deltaX) == 0 and int(deltaY) == 0:
+            if deltaX == 0 and deltaY == 0:
                 msg = "Both deltaX and deltaY are zero. At least one of them must be different than zero"
-                logI("Bad data from fish " + self.name + ": " + msg)
-                self.sendLine(msg)
+                logI("Bad data (both deltaX and deltaY zero) from fish " + self.name + ": " + data)
+                self.sendLine( json.dumps({ "ERROR": msg }) )
                 return
 
             logD("Got valid deltas for fish %s: deltaX = %s, deltaY = %s" % (self.name, deltaX, deltaY))
