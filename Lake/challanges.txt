@@ -1,0 +1,16 @@
+Mission 0: You should die: the fish should swim into land.
+           This will terminate the connection to the lake.
+
+
+Missions 1: Swim near land. 
+     Land is near if "L" appear in the map sent by the server.
+     Missions 1 and on are done in sequence: After completing a mission, the fish can attempt to solve next mission.
+     The server sends the current attmpted mission.
+
+Mission 2: swim through the "zero straits". 
+     Near the coordintes zero, zero ther is an island. 
+     You should pass between this island and the zero,zero corner of the lake.
+
+Mission 3: swim next to anothr fish for 10 turns. 
+     Swiming next to a fish means the other fish appears in your map
+     Note: if a fish touches another fish, both die

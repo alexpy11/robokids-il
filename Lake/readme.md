@@ -36,8 +36,9 @@ On a recent Ubuntu/Debian system, do:
 
 - Run one instance of the 'lake.py' server. 
 Multiple fish might connect to the server
+
 - One time tasks for each student:
-  - Make their own copy of the template 'stupidFish.py'
+  - Make your own copy of the template 'stupidFish.py'
   - Modify the fish name. 
   - If the fish runs on a different computer, modify the IP to be that of the computer running lake.py.  
 - Meeting the challanges:
@@ -52,11 +53,9 @@ Tested on both windows XP, Windows 7 and Ubuntu 14.04.
 Probably will run on any system w/Python and the needed packages
 
 ## Need to be done
-
-- Protocol should probably be moved to json (or pickle ?)
-
 - Possible next missions: 
   - Search for feed locations
   - periodical feed
   - 'strangle' another fish by being on two sides of it ?
   - Shoot another fish ? 
+- Check spelling/langauge
