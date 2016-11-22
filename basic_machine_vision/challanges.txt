@@ -6,8 +6,8 @@ Dependencies:
    - Python 2.7.x
    - PIL
 
-Challanges:
-   0. Make your own copy of template.py anthe image files
+Challenges:
+   0. Make your own copy of template.py and the image files
       Run your program and understand what it does
 
    1. Modify the program to print the x and y of the white dot
@@ -16,17 +16,15 @@ Challanges:
       and print the x and y of the middle dot
 
    3. Same for the orange in "orange.JPG".
-      Advanced challange: find the center of the orange
+      Advanced challenge: find the center of the orange
 
    4. Put a white line on the image "32_32_3white_dot.bmp" and display the image.
       The line should start from 0,0 (upper right corner) and end at 31,31 (lower left corner)
 
    5. Do the same on the image "32_32_red_dot.bmp" with out touching the red line.
-      It is Ok for the line not to be strieght BUT it must start and end at the right places
+      It is Ok for the line not to be straight BUT it must start and end at the right places
       The software should work also for different locations of the red line w/o modifications.
 
    6. Do the same for the image "32_32_red_corner.bmp"
 
-   7. Find the center of the tringle in the image "rect_tri_cir.bmp"
-
-   
+   7. Find the center of the triangle in the image "rect_tri_cir.bmp"
