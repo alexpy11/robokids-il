@@ -29,7 +29,11 @@ for x in range(0,32):
 	break
 r,g,b = im.getpixel((x,y+1))
 if r != 237:
-	for x in range(a,
+	for x in range(a,32):
+		y+=1
+		im.putpixel((x,y),(255,255,255))
+	
+				
 	
 		
 #print values of pixels
