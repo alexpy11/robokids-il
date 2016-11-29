@@ -1,0 +1,31 @@
+import Image
+
+im = Image.open("rect_tri_cir.bmp")
+im = im.convert ("RGB")
+
+width, height = im.size
+
+ax, ay = 0, 0
+dots = 0
+t = False
+for y in range (0, width) :
+    black = True
+    for x in range(0, height) :
+        if (im.getpixel ((x, y)) == (255, 255, 255)) :
+            ax += x
+            ay += y
+            dots += 1
+            black = False
+            t = True
+    if (t and black) :
+        break
+
+im.putpixel ( (ax / dots, ay / dots), (255, 0, 0) )
+# print values of pixels
+#for y in range(0,height):
+#    for x in range(0,width):
+#        r,g,b = im.getpixel((x,y))
+#        print "x,y:", x,y, "r,g,b:", r,g,b
+
+# show the image
+im.show()
