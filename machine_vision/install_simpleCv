@@ -1,0 +1,18 @@
+sudo apt install python-pip
+pip install --upgrade pip
+
+sudo apt-get install python-dev libjpeg-dev libjpeg8-dev libpng3 libfreetype6-dev
+sudo ln -s /usr/lib/i386-linux-gnu/libfreetype.so /usr/lib
+sudo ln -s /usr/lib/i386-linux-gnu/libjpeg.so /usr/lib
+sudo ln -s /usr/lib/i386-linux-gnu/libz.so /usr/lib
+sudo pip install Pillow
+
+sudo apt-get install ipython python-opencv python-scipy 
+sudo apt-get install python-numpy python-pygame python-setuptools git
+mkdir ~/simplecv_kit
+cd ~/simplecv_kit
+git clone https://github.com/sightmachine/SimpleCV.git
+cd SimpleCV/
+sed -i 's/PIL/Pillow/' requirements.txt
+sudo pip install -r requirements.txt
+sudo python setup.py install
