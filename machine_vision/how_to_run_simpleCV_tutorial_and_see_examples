@@ -1,0 +1,17 @@
+run python
+Once inside python, run those two commands:
+>>> from SimpleCV import Shell
+>>> Shell.main()
+
+This will launch the SimpleCV shell. Here you can:
+
+- See list of examples:
+SimpleCV:2> example
+
+- Run specific example:
+SimpleCV:3> example 2
+
+Note: many examples require a connected camera.
+
+- Run the turorial (highly recomended):
+SimpleCV:4> tutorial
