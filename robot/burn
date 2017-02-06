@@ -1,0 +1,16 @@
+PROG=firmware.bin
+
+./esptool.py erase_flash
+./esptool.py -p /dev/ttyUSB0 write_flash --flash_freq 40m --flash_mode dio --flash_size 8m 0x00 $PROG
+
+echo "To disbale wireless security:"
+echo "import network"
+echo "ap = network.WLAN(network.AP_IF)"
+echo "ap.config(authmode=0)"
+
+echo
+echo "To enable webrepl:"
+echo "f = open('boot.ini','w')"
+echo "f.write('import gc, webrepl\nwebrepl.start()\ngc.collect()\n')"
+echo "f.close()"
+
