@@ -1,7 +1,7 @@
 from machine import Pin as pin
 import time
 p16 = pin(16,pin.OUT)
-p4 = pin(46,pin.OUT)
+p4 = pin(4,pin.OUT)
 for i in [1, 2, 3, 4]:
     p16.high(); p4.low()
     time.sleep(1)
