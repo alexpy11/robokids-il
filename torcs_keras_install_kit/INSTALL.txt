@@ -1,0 +1,73 @@
+# Shalom Mitz, Sep 2017, 
+
+# assuming clean Xubuntu or Ubuntu 16.04 64bit install
+
+#Install general and python3 stuff
+#=================================
+sudo apt update
+sudo apt upgrade
+sudo apt install python3-pip
+sudo pip3 install --upgrade pip
+sudo apt install -y python3-matplotlib python3-numpy python3-dev python3-opengl
+sudo apt install -y  cmake zlib1g-dev libjpeg-dev xvfb libav-tools  
+sudo apt install -y  xorg-dev libboost-all-dev libsdl2-dev swig git
+
+#Install gym-torcs
+#=================
+sudo pip3 install gym
+sudo apt -y install xautomation
+git clone https://github.com/kloek/gym_torcs.git
+
+#Install vtorcs (comes w/gym-torcs)
+#==================================
+sudo apt install -y libglib2.0-dev libgl1-mesa-dev libglu1-mesa-dev  freeglut3-dev libplib-dev libopenal-dev libalut-dev libxi-dev libxmu-dev libxrender-dev libxrandr-dev libpng12-dev 
+cd gym_torcs/vtorcs-RL-color/
+./configure
+make
+sudo make install
+sudo make datainstall
+cd ../..
+sudo rm -rf /usr/local/share/games/torcs/tracks/oval/g-speedway/ #problem track
+
+#Configure torcs
+#==============
+#launch torcs to configure: torcs
+Then select track: click -> race -> Practice -> configure ->accept few times and exit
+
+# NOT NEEDED (becuse we do not use vision): Set resulotion
+# NOT NEEDED Click: Configure -> Display and set to 64x64 -> Apply
+NOTE: you can also change the screen resulotion  by editing:
+/usr/local/share/games/torcs/config/screen.xml
+
+# copy modified files from kit
+#===================================
+cp ~/kit/snakeoil3_gym.py ~/gym_torcs
+cp ~/kit/autostart.sh ~/gym_torcs
+cp ~/kit/template_agent.py ~/gym_torcs
+cp ~/kit/run ~/gym_torcs
+
+#test Agent
+#==========
+cd ~/gym_torcs
+./run
+#you should see a window with the track and some movement
+
+#Install TensorFlow & Keras
+#==========================
+sudo apt install -y python3-numpy python3-dev python3-pip python3-wheel
+sudo pip3 install -y tensorflow keras
+
+#Test TensorFlow & Keras
+#=======================
+Run the following Python3 code:
+    import tensorflow as tf
+    hello = tf.constant('Hello, TensorFlow!')
+    sess = tf.Session()
+    print(sess.run(hello))
+If you see: "Hello, TensorFlow!", TensorFlow inst is Ok
+Run the following Python3 code:
+    from keras.models import Sequential
+    model = Sequential()
+If there are no error messages, Keras install is Ok.
+
+
