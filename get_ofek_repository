@@ -1,0 +1,6 @@
+if [ -d "robokids-il" ]; then
+   cd robokids-il
+   git pull https://github.com/alexpy11/robokids-il.git
+else
+   git clone https://github.com/alexpy11/robokids-il.git
+fi
