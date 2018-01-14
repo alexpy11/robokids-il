@@ -1,0 +1,30 @@
+# Shalom Mitz,  Jan 2018
+
+# assuming clean Xubuntu or Ubuntu 16.04 64bit install
+
+#Install general and python stuff
+#=================================
+sudo apt update
+sudo apt upgrade
+sudo apt install python-pip
+sudo pip install --upgrade pip
+
+#Install TensorFlow & Keras
+#==========================
+sudo pip install -y tensorflow keras
+
+#Test TensorFlow & Keras
+#=======================
+Run the following Python code:
+    import tensorflow as tf
+    hello = tf.constant('Hello, TensorFlow!')
+    sess = tf.Session()
+    print(sess.run(hello))
+If you see: "Hello, TensorFlow!", TensorFlow inst is Ok
+
+Run the following Python code:
+    from keras.models import Sequential
+    model = Sequential()
+If there are no error messages, Keras install is Ok.
+
+
