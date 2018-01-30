@@ -1,19 +1,22 @@
-Shalom Mitz                         Nov 2016
+Shalom Mitz                         Jan 2018
 
          Python Exersize to Learn Basic Machine Langauge
 
 Dependencies: 
    - Python 2.7.x
-   - PIL
+   - PIL (or Pillow)
+
+Note: Make copy of the file template.py for each challange.
 
 Challenges:
-   0. Make your own copy of template.py and the image files
-      Run your program and understand what it does
+   0. Run template.py and understand what it does
 
    1. Modify the program to print the x and y of the white dot
 
    2. Modify the program to read the file "32_32_3white_dot.bmp"
-      and print the x and y of the middle dot
+      and print the x and y of the middle dot.
+      NOTE: this file is black/white. This means that 'putpixel' expect one value 
+         and that 'getpixel' will return a single value.
 
    3. Same for the orange in "orange.JPG".
       Advanced challenge: find the center of the orange
